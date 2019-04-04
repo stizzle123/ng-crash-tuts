@@ -10,20 +10,23 @@ import { MessageService } from "./message.service";
 export class HeroService {
   constructor(private messageService: MessageService) {}
 
-  getHeroes(): Observable<Hero[]> {
-    this.messageService.add("HeroService: fetched heroes");
+  clearMessage() {
     setTimeout(() => {
       this.messageService.clear();
     }, 3500);
+  }
+
+  getHeroes(): Observable<Hero[]> {
+    this.messageService.add("HeroService: fetched heroes");
+    this.clearMessage();
     return of(HEROES);
   }
 
   getHero(id: number): Observable<Hero> {
     // TODO: Send the message __after__ fetching the hero
     this.messageService.add(`HeroService: fetched hero id=${id}`);
-    setTimeout(() => {
-      this.messageService.clear();
-    }, 3500);
+    this.clearMessage();
+
     return of(HEROES.find(hero => hero.id === id));
   }
 }
